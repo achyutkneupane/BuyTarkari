@@ -1,5 +1,5 @@
 <div class="w-screen h-screen">
-    @section('title','Sign Up - ')
+    @section('title','Sign Up')
     <div class="absolute top-0 w-full h-full bg-center bg-cover"
     style="background-image:url('https://media.istockphoto.com/photos/assortment-of-the-fresh-vegetables-picture-id960871382?k=6&m=960871382&s=612x612&w=0&h=NKBKmf_ZmKtyseaYgy2-uU4YLH4KdcFZb2y8z-gdCCw=')">
         <span id="blackOverlay" class="absolute w-full h-full bg-black opacity-60"></span>

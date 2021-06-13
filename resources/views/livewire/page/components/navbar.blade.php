@@ -3,9 +3,9 @@
         <div class="flex flex-col justify-between w-full px-5 py-1 mx-auto border md:items-center md:flex-row">
             <div class="flex justify-between md:contents">
                 <div class="order-1">
-                    <h2 class="block p-2 text-xl font-normal tracking-tighter text-gray-500 transition duration-500 ease-in-out transform cursor-pointer hover:text-gray-500 md:text-x">
+                    <a class="block p-2 text-xl font-normal tracking-tighter text-gray-500 transition duration-500 ease-in-out transform cursor-pointer hover:text-gray-500 md:text-x" href="{{ route('landing_page') }}">
                         {{ config('app.name') }}
-                    </h2>
+                    </a>
                 </div>
                 <div class="flex items-center order-2 md:order-3">
                     <nav class="flex flex-wrap items-center justify-center text-base lg:mr-auto">
