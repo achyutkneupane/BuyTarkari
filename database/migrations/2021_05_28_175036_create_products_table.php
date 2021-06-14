@@ -21,7 +21,7 @@ class CreateProductsTable extends Migration
             $table->enum('status',array('active','inactive'))->default('active');
             $table->boolean('in_stock')->default(true);
             $table->enum('unit',array('kg','l','pcs'))->default('kg');
-            $table->string('price');
+            $table->float('price');
             $table->string('discount_amount')->nullable();
             $table->enum('discount_type',array('flat','percentage'))->nullable()->default('flat');
             $table->integer('priority')->nullable();

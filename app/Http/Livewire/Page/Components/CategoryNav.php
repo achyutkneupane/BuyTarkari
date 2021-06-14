@@ -9,7 +9,7 @@ class CategoryNav extends Component
 {
     public function render()
     {
-        $categories = Category::orderBy('priority','ASC')->get('title');
+        $categories = Category::orderBy('priority','ASC')->get(['title','slug']);
         return view('livewire.page.components.category-nav',compact('categories'));
     }
 }

@@ -11,7 +11,7 @@
                 </div>
                 @if($cart->count() > 0)
                 @foreach($cart as $item)
-                @livewire('page.components.cart-item', ['cartId' => $item->rowId])
+                @livewire('page.components.cart-item', ['cartId' => $item->rowId],key(time().$loop->index.$item->id))
                 @endforeach
                 @else
                 <div class="w-full px-4 py-2 text-center border">

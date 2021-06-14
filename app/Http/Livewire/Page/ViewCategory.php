@@ -3,21 +3,84 @@
 namespace App\Http\Livewire\Page;
 
 use App\Models\Category;
+use App\Models\Product;
+use Gloudemans\Shoppingcart\Facades\Cart;
 use Livewire\Component;
 use Livewire\WithPagination;
 
 class ViewCategory extends Component
 {
     use WithPagination;
-    public $slug,$category;
+    public $slug,$category,$sortProperty,$sortOrder,$brands;
+    public $sortBy,$minPrice,$maxPrice,$brandSelected;
+    public $search = '';
     public function mount($slug)
     {
+        $this->sortBy = '';
         $this->slug = $slug;
+        $this->category = Category::with('products.brand')->where('slug',$this->slug)->first();
+        $this->sortProperty = 'id';
+        $this->sortOrder = 'DESC';
+        $this->minPrice = $this->category->products->min('price');
+        $this->maxPrice = $this->category->products->max('price');
+        $this->brands = collect();
+        $this->category->products->map(
+            function($product) {
+                if(!$this->brands->contains($product->brand)){
+                    $this->brands->push($product->brand);
+                }
+            }
+        );
+    }
+    public function inCart($prodId)
+    {
+        return Cart::instance('cart')->content()->where('id',$prodId)->count();
+    }
+    public function updated($property)
+    {
+        if($property == 'sortBy')
+        {
+            if($this->sortBy == 'expensive')
+            {
+                $this->sortProperty = 'price';
+                $this->sortOrder = 'DESC';
+            }
+            elseif($this->sortBy == 'cheap')
+            {
+                $this->sortProperty = 'price';
+                $this->sortOrder = 'ASC';
+            }
+            elseif($this->sortBy == 'new')
+            {
+                $this->sortProperty = 'created_at';
+                $this->sortOrder = 'DESC';
+            }
+        }
+        elseif($property == 'minPrice')
+        {
+            if($this->minPrice >= $this->category->products->max('price') || $this->minPrice < $this->category->products->min('price'))
+            $this->minPrice = $this->category->products->min('price');
+        }
+        elseif($property == 'maxPrice')
+        {
+            if($this->maxPrice <= $this->category->products->min('price') || $this->maxPrice > $this->category->products->max('price'))
+            $this->maxPrice = $this->category->products->max('price');
+        }
+    }
+    public function updatingSearch()
+    {
+        $this->resetPage();
     }
     public function render()
     {
-        $this->category = Category::with('products.brand')->where('slug',$this->slug)->first();
-        $products = $this->category->products()->paginate(12);
+        $products = Product::with('brand')
+                           ->where('status','active')
+                           ->where('category_id',$this->category->id)
+                           ->where('title', 'like', '%'.$this->search.'%')
+                           ->where('price','>=',$this->minPrice)
+                           ->where('price','<=',$this->maxPrice)
+                           ->orderBy($this->sortProperty,$this->sortOrder)
+                           ->paginate(12);
         return view('livewire.page.view-category',compact('products'));
     }
 }

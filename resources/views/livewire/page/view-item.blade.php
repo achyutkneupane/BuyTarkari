@@ -59,11 +59,11 @@
                         </div>
                     </div>
                     @if($inCart)
-                    <div class="text-2xl font-bold text-red-800 uppercase">
+                    <div class="text-2xl font-bold text-red-800 uppercase" wire:loading.class='opacity-10' wire:target='addToCart,removeFromCart'>
                         In Cart
                     </div>
                     @else
-                    <div class="flex items-center mb-1 ">
+                    <div class="flex items-center mb-1 " wire:loading.class='opacity-10' wire:target='addToCart,removeFromCart'>
                         <div class="w-1/3 font-bold">
                             Quantity:
                         </div>
@@ -73,13 +73,13 @@
                     </div>
                     @endif
                     @if(!$inCart)
-                    <div class="flex items-center mb-1 ">
+                    <div class="flex items-center mb-1 " wire:loading.class='opacity-10' wire:target='addToCart,removeFromCart'>
                         <div class="w-1/3 text-xl font-bold text-brand-color">
                             IN STOCK
                         </div>
                     </div>
                     @endif
-                    <div class="flex items-center mt-2">
+                    <div class="flex items-center mt-2" wire:loading.class='opacity-10' wire:target='addToCart,removeFromCart'>
                         @if($inCart)
                         <button class="w-full p-3 text-center text-white bg-red-800 border rounded-lg cursor-pointer md:w-1/5" wire:click='removeFromCart'>
                             Cancel

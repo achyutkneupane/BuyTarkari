@@ -1,10 +1,10 @@
-<div class="z-0 w-full transition duration-500 transform hover:scale-105" wire:loading.class='opacity-10' wire:target='addToCart,removeFromCart'>
-    <div class="flex flex-col justify-center p-2 overflow-hidden bg-white shadow">
-        <a class="flex flex-col" href="{{ route('viewItem',$product->slug) }}">
-            <div class="overflow-hidden">
-                <img class="object-center w-full transition transform h-72 duration-1500 hover:scale-150" src="https://dummyimage.com/1200x800/000000/ffffff&text=Product">
+<div class="w-full px-1 my-1 overflow-hidden sm:w-1/2 lg:w-1/3">
+    <div class="p-2 bg-white border">
+        <div class="w-full p-2">
+            <div class="w-full overflow-hidden">
+                <img class="object-center w-full transition transform h-72 duration-1500 hover:scale-150" src="https://dummyimage.com/1200x800/000000/ffffff&text=Product{{ $product->id }}">
             </div>
-            <div class="my-2 text-xl text-center text-brand-color">
+            <div class="w-full text-xl text-center text-brand-color">
                 {{ $product->title }}
             </div>
             <div class="flex flex-row items-center justify-between">
@@ -31,7 +31,7 @@
                 Rs. {{ $product->price }}
                 @endif
             </div>
-        </a>
+        </div>
         <div class="flex flex-col">
             <div class="flex flex-row items-center justify-between my-2">
                 @if($inCart)
@@ -39,7 +39,7 @@
                     In Cart
                 </div>
                 @else
-                @livewire('page.components.quantity-component', ['unit' => $product->unit, 'qty' => $qty])
+                {{-- @livewire('page.components.quantity-component', ['unit' => $product->unit, 'qty' => $qty, 'key' => $product->id.rand()]) --}}
                 @endif
                 <div class="text-center">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
