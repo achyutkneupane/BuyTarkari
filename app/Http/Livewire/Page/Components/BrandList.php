@@ -41,6 +41,7 @@ class BrandList extends Component
             $this->brands = $this->br;
         }
         $this->brands = json_decode($this->brands);
+        $this->emitUp('updateItemsWithBrand',$this->brandSelected);
         return view('livewire.page.components.brand-list');
     }
 }

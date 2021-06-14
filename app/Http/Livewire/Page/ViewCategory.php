@@ -14,6 +14,7 @@ class ViewCategory extends Component
     public $slug,$category,$sortProperty,$sortOrder,$brands;
     public $sortBy,$minPrice,$maxPrice,$brandSelected;
     public $search = '';
+    public $listeners = ['updateItemsWithBrand'=>'getBrands'];
     public function mount($slug)
     {
         $this->sortBy = '';
@@ -67,6 +68,10 @@ class ViewCategory extends Component
             $this->maxPrice = $this->category->products->max('price');
         }
     }
+    public function getBrands($brands)
+    {
+        $this->brandSelected = $brands;
+    }
     public function updatingSearch()
     {
         $this->resetPage();
@@ -79,6 +84,21 @@ class ViewCategory extends Component
                            ->where('title', 'like', '%'.$this->search.'%')
                            ->where('price','>=',$this->minPrice)
                            ->where('price','<=',$this->maxPrice)
+                           ->where(function($product) {
+                               if($this->brandSelected > 0)
+                               {
+                                   foreach($this->brandSelected as $index=>$brandId)
+                                   {
+                                       if($index == 0)
+                                       {
+                                           $product->where('brand_id',$brandId);
+                                       }
+                                       else {
+                                           $product->orWhere('brand_id',$brandId);
+                                       }
+                                   }
+                               }
+                           })
                            ->orderBy($this->sortProperty,$this->sortOrder)
                            ->paginate(12);
         return view('livewire.page.view-category',compact('products'));

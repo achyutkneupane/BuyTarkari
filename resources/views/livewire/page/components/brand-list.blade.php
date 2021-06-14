@@ -1,6 +1,6 @@
 <div class="w-full">
     <input type="text" id="brand" class="w-full px-4 py-3 my-2 border rounded" placeholder="Search for brand........" wire:model='brandSearch'>
-    <div class="flex flex-col h-48 px-4 py-2 overflow-scroll border" wire:loading.class='opacity-10'>
+    <div class="flex flex-col h-48 px-4 py-2 overflow-scroll border">
         @if(count($brands) > 0)
         @foreach($brands as $brand)
         <label><input type="checkbox" wire:model="brandSelected" value="{{ $brand->id }}" class="w-4 mr-2">{{ $brand->title }}</label>
