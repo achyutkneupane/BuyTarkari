@@ -6,18 +6,21 @@ use Livewire\Component;
 
 class QuantityComponent extends Component
 {
-    public $qty;
-    public function mount()
+    public $qty,$unit;
+    public function mount($unit,$qty)
     {
-        $this->qty = 1;
+        $this->unit = $unit;
+        $this->qty = $qty;
     }
     public function increment()
     {
         $this->qty++;
+        $this->emitUp('updateQuantity',$this->qty);
     }
     public function decrement()
     {
         $this->qty--;
+        $this->emitUp('updateQuantity',$this->qty);
     }
     public function render()
     {

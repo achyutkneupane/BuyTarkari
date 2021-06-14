@@ -2,12 +2,14 @@
 
 namespace App\Http\Livewire\Page\Components;
 
+use App\Models\Category;
 use Livewire\Component;
 
 class CategoryNav extends Component
 {
     public function render()
     {
-        return view('livewire.page.components.category-nav');
+        $categories = Category::orderBy('priority','ASC')->get(['title','slug']);
+        return view('livewire.page.components.category-nav',compact('categories'));
     }
 }

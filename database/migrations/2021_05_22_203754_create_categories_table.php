@@ -17,7 +17,12 @@ class CreateCategoriesTable extends Migration
             $table->id();
             $table->string('title');
             $table->string('slug');
+            $table->enum('status',array('active','inactive'))->default('inactive');
+            $table->integer('priority')->nullable();
+            $table->unsignedBigInteger('parent_id')->nullable();
+            $table->softDeletes();
             $table->timestamps();
+            $table->foreign('parent_id')->references('id')->on('categories');
         });
     }
 

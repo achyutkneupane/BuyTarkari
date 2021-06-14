@@ -23,6 +23,7 @@ class CreateUsersTable extends Migration
             $table->enum('device',array('web','android','iOS'));
             $table->string('verify_token');
             $table->rememberToken();
+            $table->softDeletes();
             $table->timestamps();
         });
     }
