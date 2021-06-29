@@ -38,7 +38,7 @@ class Checkout extends Component
             'first_name' => 'required',
             'last_name' => 'required',
             'company' => '',
-            'number' => 'required,numeric,digits:10',
+            'number' => 'required|numeric|digits:10',
             'street_01' => 'required',
             'street_02' => '',
             'city' => 'required',
