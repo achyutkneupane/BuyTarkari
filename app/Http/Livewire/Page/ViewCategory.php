@@ -3,27 +3,33 @@
 namespace App\Http\Livewire\Page;
 
 use App\Models\Category;
+use App\Models\Order;
 use App\Models\Product;
 use Gloudemans\Shoppingcart\Facades\Cart;
+use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Livewire\WithPagination;
 
 class ViewCategory extends Component
 {
     use WithPagination;
+    public $order;
     public $slug,$category,$sortProperty,$sortOrder,$brands;
-    public $sortBy,$minPrice,$maxPrice,$brandSelected;
+    public $sortBy,$minPrice,$maxPrice,$brandSelected,$minRange,$maxRange;
     public $search = '';
     public $listeners = ['updateItemsWithBrand'=>'getBrands'];
     public function mount($slug)
     {
+        $this->order = Order::with('products')->where('session_id',session('cart_id'))->get()->last();
         $this->sortBy = '';
         $this->slug = $slug;
         $this->category = Category::with('products.brand')->where('slug',$this->slug)->first();
         $this->sortProperty = 'id';
         $this->sortOrder = 'DESC';
-        $this->minPrice = $this->category->products->min('price');
-        $this->maxPrice = $this->category->products->max('price');
+        $this->minRange = $this->category->products->min('price');
+        $this->maxRange = $this->category->products->max('price');
+        $this->minPrice = $this->minRange;
+        $this->maxPrice = $this->maxRange;
         $this->brands = collect();
         $this->category->products->map(
             function($product) {
@@ -56,16 +62,21 @@ class ViewCategory extends Component
                 $this->sortProperty = 'created_at';
                 $this->sortOrder = 'DESC';
             }
+            elseif($this->sortBy == 'rating')
+            {
+                $this->sortProperty = 'id';
+                $this->sortOrder = 'DESC';
+            }
         }
         elseif($property == 'minPrice')
         {
-            if($this->minPrice >= $this->category->products->max('price') || $this->minPrice < $this->category->products->min('price'))
-            $this->minPrice = $this->category->products->min('price');
+            if($this->minPrice >= $this->maxRange || $this->minPrice >= $this->maxPrice || $this->minPrice < $this->minRange)
+            $this->minPrice = $this->minRange;
         }
         elseif($property == 'maxPrice')
         {
-            if($this->maxPrice <= $this->category->products->min('price') || $this->maxPrice > $this->category->products->max('price'))
-            $this->maxPrice = $this->category->products->max('price');
+            if($this->maxPrice <= $this->minRange || $this->maxPrice <= $this->minPrice || $this->maxPrice > $this->maxRange)
+            $this->maxPrice = $this->maxRange;
         }
     }
     public function getBrands($brands)
@@ -78,13 +89,21 @@ class ViewCategory extends Component
     }
     public function render()
     {
-        $products = Product::with('brand')
-                           ->where('status','active')
-                           ->where('category_id',$this->category->id)
-                           ->where('title', 'like', '%'.$this->search.'%')
-                           ->where('price','>=',$this->minPrice)
-                           ->where('price','<=',$this->maxPrice)
-                           ->where(function($product) {
+        $productColl = Product::with('ratings','brand')->where('status','active');
+        if($this->sortBy == 'rating') {
+            $productsColl = $productColl->leftJoin('ratings', 'ratings.product_id', '=', 'products.id')
+                                ->select('products.*', DB::raw('AVG(rating) as ratings_average' ))
+                                ->groupBy('id')
+                                ->orderBy('ratings_average', 'DESC');
+        }
+        else {
+            $productsColl = $productColl->orderBy($this->sortProperty,$this->sortOrder);
+        }
+        $products = $productsColl->where('category_id',$this->category->id)
+                            ->where('title', 'like', '%'.$this->search.'%')
+                            ->where('price','>=',$this->minPrice)
+                            ->where('price','<=',$this->maxPrice)
+                            ->where(function($product) {
                                if($this->brandSelected > 0)
                                {
                                    foreach($this->brandSelected as $index=>$brandId)
@@ -99,7 +118,6 @@ class ViewCategory extends Component
                                    }
                                }
                            })
-                           ->orderBy($this->sortProperty,$this->sortOrder)
                            ->paginate(12);
         return view('livewire.page.view-category',compact('products'));
     }

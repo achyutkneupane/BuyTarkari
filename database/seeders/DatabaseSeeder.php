@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Brand;
 use App\Models\Category;
+use App\Models\Paymentmethod;
 use App\Models\Product;
 use App\Models\User;
 use Illuminate\Database\Seeder;
@@ -40,17 +41,27 @@ class DatabaseSeeder extends Seeder
                 Category::create([
                     'title' => 'Category'.$i,
                     'slug' => 'category'.$i,
-                    'priority' => $i
+                    'priority' => $i,
+                    'status' => 'active'
                 ]);
             }
             for($i=1;$i<=5;$i++){
                 Brand::create([
                     'title' => 'Brand'.$i,
                     'slug' => 'brand'.$i,
-                    'priority' => $i
+                    'priority' => $i,
+                    'status' => 'active'
                 ]);
             }
             Product::factory()->count(200)->create();
+            Paymentmethod::create([
+                'title' => 'Esewa',
+                'content' => 'This is Esewa Option.<br>Contact: 9860323771'
+            ]);
+            Paymentmethod::create([
+                'title' => 'Cash On Delivery',
+                'content' => 'This is COD Option.'
+            ]);
         }
     }
 }

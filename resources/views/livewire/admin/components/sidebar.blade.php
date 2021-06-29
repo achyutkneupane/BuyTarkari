@@ -1,6 +1,6 @@
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     
-    <a href="index3.html" class="text-center brand-link">
+    <a href="{{ asset('/') }}" class="text-center brand-link">
       <span class="brand-text font-weight-light">{{ config('app.name') }}</span>
     </a>
 
@@ -34,16 +34,61 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="{{ route('adminProducts') }}" class="nav-link {{ request()->routeIs('adminProducts') ? "active" : '' }}">
-              <i class="nav-icon fas fa-shopping-cart"></i>
+            <a href="{{ route('adminPaymentMethods') }}" class="nav-link {{ request()->routeIs('adminPaymentMethods') ? "active" : '' }}">
+              <i class="nav-icon fas fa-money-bill"></i>
               <p>
-                Products
+                Payment Methods
               </p>
             </a>
           </li>
+          <li class="nav-item {{ request()->routeIs('adminAddProduct') || request()->routeIs('adminProducts') ? "menu-open" : '' }}">
+            <a href="" class="nav-link {{ request()->routeIs('adminAddProduct') || request()->routeIs('adminProducts') ? "active" : '' }}">
+              <i class="nav-icon fas fa-shopping-cart"></i>
+              <p>
+                Products
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{{ route('adminAddProduct') }}" class="nav-link {{ request()->routeIs('adminAddProduct') ? "active" : '' }}">
+                  <i class="nav-icon fas fa-plus"></i>
+                  <p>Add</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{ route('adminProducts') }}" class="nav-link {{ request()->routeIs('adminProducts') ? "active" : '' }}">
+                  <i class="fas fa-list nav-icon"></i>
+                  <p>List</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-item {{ request()->routeIs('adminAddPromocode') || request()->routeIs('adminPromocodes') ? "menu-open" : '' }}">
+            <a href="" class="nav-link {{ request()->routeIs('adminAddPromocode') || request()->routeIs('adminPromocodes') ? "active" : '' }}">
+              <i class="nav-icon fas fa-hand-holding-heart"></i>
+              <p>
+                Promocodes
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{{ route('adminAddPromocode') }}" class="nav-link {{ request()->routeIs('adminAddPromocode') ? "active" : '' }}">
+                  <i class="nav-icon fas fa-plus"></i>
+                  <p>Add</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{ route('adminPromocodes') }}" class="nav-link {{ request()->routeIs('adminPromocodes') ? "active" : '' }}">
+                  <i class="fas fa-list nav-icon"></i>
+                  <p>List</p>
+                </a>
+              </li>
+            </ul>
+          </li>
         </ul>
       </nav>
-      
     </div>
     
   </aside>

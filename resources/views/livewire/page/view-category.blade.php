@@ -40,8 +40,8 @@
                             Price Range
                         </label>
                         <div class="flex w-full gap-2">
-                            <input type="number" id="minimum_price" class="w-1/2 py-3 pl-4 my-2 border rounded" wire:model='minPrice' placeholder="Minimum">
-                            <input type="number" id="maximum_price" class="w-1/2 py-3 pl-4 my-2 border rounded" wire:model='maxPrice' placeholder="Maximum">
+                            <input type="number" id="minimum_price" class="w-1/2 py-3 pl-4 my-2 border rounded" wire:model.debounce.1s='minPrice' placeholder="Minimum" min="{{ $minRange }}">
+                            <input type="number" id="maximum_price" class="w-1/2 py-3 pl-4 my-2 border rounded" wire:model.debounce.1s='maxPrice' placeholder="Maximum" max="{{ $maxRange }}">
                         </div>
                     </div>
                     <div class="flex flex-col w-full py-4">
@@ -62,7 +62,7 @@
                         @if($products->count() > 0)
                         @foreach($products as $product)
                         <div class="w-full p-2 md:w-1/3" wire:loading.class='opacity-25'>
-                            @livewire('page.components.product-component', ['product' => $product],key(time().$loop->index.$product->id))
+                            @livewire('page.components.product-component', ['product' => $product,'order'=>$this->order],key(time().$loop->index.$product->id))
                         </div>
                         @endforeach
                         @else

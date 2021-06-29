@@ -9,55 +9,59 @@
                             <div class="card col-lg-10">
                                 <div class="card-body">
                                     <div class="d-flex justify-content-between">
-                                        <h5 class="card-title">All Products</h5>
-                                        <a class="px-3 py-2 btn btn-success" href="{{ route('adminAddProduct') }}">+ Add</a>
+                                        <h5 class="card-title">All Promocodes</h5>
+                                        <a class="px-3 py-2 btn btn-success" href="{{ route('adminAddPromocode') }}">+ Add</a>
                                     </div>
                                     <p class="card-text">
                                         <table class="table table-hover table-bordered">
                                             <thead>
                                               <tr class="text-center">
                                                 <th scope="col">ID</th>
-                                                <th scope="col">Title</th>
-                                                <th scope="col">Slug</th>
-                                                <th scope="col">Brand</th>
-                                                <th scope="col">Category</th>
+                                                <th scope="col">Code</th>
                                                 <th scope="col">Status</th>
+                                                <th scope="col">Discount</th>
+                                                <th scope="col">Minimum Amount</th>
+                                                <th scope="col">Start At</th>
+                                                <th scope="col">End At</th>
                                                 <th scope="col" class="text-right">Actions</th>
                                               </tr>
                                             </thead>
                                             <tbody class="user-select-none">
-                                                @if($products->count() > 0)
-                                                @foreach ($products as $product)
-                                                <tr wire:key="product-{{ $product->id }}" role="button">
+                                                @if($promocodes->count() > 0)
+                                                @foreach ($promocodes as $promocode)
+                                                <tr>
                                                     <th scope="row">{{ $loop->iteration }}</th>
                                                     <td>
-                                                        {{ $product->title }}
+                                                        {{ $promocode->code }}
                                                     </td>
-                                                    <td>
-                                                        {{ $product->slug }}
-                                                    </td>
-                                                    <td>
-                                                        {{ $product->brand->title }}
-                                                    </td>
-                                                    <td>
-                                                        {{ $product->category->title }}
-                                                    </td>
-                                                    <td class="text-center" wire:click="toggleStatus({{ $product->id }},'{{ $product->status }}')">
+                                                    <td class="text-center" wire:click="toggleStatus({{ $promocode->id }},'{{ $promocode->status }}')">
                                                         <label class="switch">
-                                                            <input type="checkbox"{{ $product->status == 'active' ? ' checked' : '' }}>
+                                                            <input type="checkbox"{{ $promocode->status == true ? ' checked' : '' }}>
                                                             <span class="slider round"></span>
                                                         </label>
                                                     </td>
+                                                    <td>
+                                                        {{ $promocode->discount }}
+                                                    </td>
+                                                    <td>
+                                                        {{ $promocode->minimum }}
+                                                    </td>
+                                                    <td>
+                                                        {{ $promocode->start_at }}
+                                                    </td>
+                                                    <td>
+                                                        {{ $promocode->end_at }}
+                                                    </td>
                                                     <td class="text-right">
-                                                        <button class="mx-1 btn btn-warning" wire:click="editProduct({{ $product->id }})">Edit</button>
-                                                        <button class="mx-1 btn btn-danger" wire:click="removeProduct({{ $product->id }})">Remove</button>
+                                                        <a class="mx-1 btn btn-warning" href="{{ route('adminEditPromocode',$promocode->id) }}">Edit</a>
+                                                        <button class="mx-1 btn btn-danger" wire:click="removePromoCode({{ $promocode->id }})">Remove</button>
                                                     </td>
                                                 </tr>
                                                 @endforeach
                                                 @else
                                                 <tr>
-                                                    <td colspan="7" class="text-center">
-                                                        No products till now. Click <b>+Add</b> to add new.
+                                                    <td colspan="8" class="text-center">
+                                                        No Promocodes till now. Click <b>+Add</b> to add new.
                                                     </td>
                                                 </tr>
                                                 @endif
@@ -139,5 +143,4 @@
 </style>
 @endpush
 @push('scripts')
-<script src="https://cdn.jsdelivr.net/gh/livewire/sortable@v0.x.x/dist/livewire-sortable.js"></script>
 @endpush

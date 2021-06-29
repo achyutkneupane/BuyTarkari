@@ -2,7 +2,7 @@
 
 namespace App\Http\Livewire\Page\Components;
 
-use Gloudemans\Shoppingcart\Facades\Cart as FacadesCart;
+use App\Models\Order;
 use Livewire\Component;
 
 class Cart extends Component
@@ -11,7 +11,7 @@ class Cart extends Component
     public $cart;
     public function render()
     {
-        $this->cart = FacadesCart::instance('cart')->content()->count();
+        $this->cart = session()->get('cart_id') ? Order::where('session_id',session()->get('cart_id'))->first()->products->count() : null;
         return view('livewire.page.components.cart');
     }
 }

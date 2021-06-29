@@ -14,6 +14,7 @@ class Controller extends BaseController
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
     public function logout() {
         Auth::logout();
+        session()->forget('cart_id');
         return redirect('/');
     }
     public function verifyEmail($token)

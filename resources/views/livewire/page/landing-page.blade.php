@@ -9,7 +9,7 @@
             @livewire('page.components.banners')
             @livewire('page.components.three-banners')
             @foreach($categories as $category)
-            @livewire('page.components.four-items', ['category' => $category],key(time().$loop->index.$category->id))
+            @livewire('page.components.four-items', ['category' => $category,'order'=>$order],key(time().$loop->index.$category->id))
             @endforeach
             </div>
         </div>

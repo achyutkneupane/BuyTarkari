@@ -13,7 +13,11 @@
                         Price:
                     </div>
                     <div>
+                        @if($product->discount_flag)
+                        <span class="line-through">Rs. {{ $product->price }}</span> <span class="text-red-600">Rs. {{ $product->net_price }}</span>
+                        @else
                         Rs. {{ $product->price }}
+                        @endif
                     </div>
                 </div>
                 <div class="flex justify-start gap-2">
@@ -21,7 +25,11 @@
                         Total:
                     </div>
                     <div>
+                        @if($product->discount_flag)
+                        <span class="line-through">Rs. {{ $qty*$product->price }}</span> <span class="text-red-600">Rs. {{ $qty*$product->net_price }}</span>
+                        @else
                         Rs. {{ $qty*$product->price }}
+                        @endif
                     </div>
                 </div>
             </div>

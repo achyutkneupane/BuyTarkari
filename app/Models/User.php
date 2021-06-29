@@ -38,4 +38,20 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
     protected $dates = ['deleted_at'];
+    public function ratings()
+    {
+        return $this->hasMany(Rating::class);
+    }
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
+    public function promocodes()
+    {
+        return $this->hasMany(PromoCode::class);
+    }
+    public function addresses()
+    {
+        return $this->hasMany(Address::class);
+    }
 }

@@ -1,25 +1,24 @@
 <div class="flex flex-col justify-between h-screen">
-    @section('title','Cart')
+    @section('title','Orders')
     <div class="flex flex-col justify-start">
         <div>
         @livewire('page.components.navbar')
         </div>
         <div class="flex flex-col-reverse w-3/4 gap-4 mx-auto pt-44 md:pt-32 md:flex-row">
-            <div class="flex flex-col items-center w-full gap-8 px-5 py-8 mt-2 mb-6 bg-white rounded-lg shadow md:w-2/3">
+            <div class="flex flex-col items-center w-full gap-4 px-5 py-8 mt-2 mb-6 bg-white rounded-lg shadow">
                 <div class="text-3xl uppercase">
-                    Cart
+                    Orders
                 </div>
-                @if($cartCount)
-                @foreach($cart as $item)
-                @livewire('page.components.cart-item', ['cartId' => $item->id],key(time().$loop->index.$item->id))
+                @if($orders->count() > 0)
+                @foreach($orders as $order)
+                @livewire('page.components.view-order', ['order' => $order])
                 @endforeach
                 @else
                 <div class="w-full px-4 py-2 text-center border">
-                    No items in Cart
+                    No Orders Placed
                 </div>
                 @endif
             </div>
-            @livewire('page.components.cart-amout-details')
         </div>
     </div>
     <div class="w-full">
