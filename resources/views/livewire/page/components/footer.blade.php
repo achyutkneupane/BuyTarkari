@@ -31,8 +31,7 @@
         </div>
         <div class="w-full mt-2 text-center border-t rounded-b-lg bg-blueGray-100">
             <p class="pt-2 text-center text-white bg-brand-color">
-                © {{ config('app.name') }} {{ now()->year }}<br>Developed by <a href="https://www.linkedin.com/in/achyutkneupane/"
-                class="text-center text-gray-200 hover:text-white">Achyut</a>
+                © {{ config('app.name') }} {{ now()->year }}<br>Developed by <a href="https://achyut.com.np" class="text-center text-gray-200 hover:text-white" target="_blank">Achyut</a>
             </p>
         </div>
     </footer>
