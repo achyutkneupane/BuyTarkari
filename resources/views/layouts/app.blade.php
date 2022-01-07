@@ -66,13 +66,26 @@
 <script src="{{ asset('admin/js/adminlte.min.js') }}"></script>
 @endif
 @stack('scripts')
-{{-- <script async src="https://www.googletagmanager.com/gtag/js?id=G-KFS7ZDW4NN"></script>
-<script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
 
-    gtag('config', 'G-KFS7ZDW4NN');
-</script> --}}
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-GV2QNZ2Q0L"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-GV2QNZ2Q0L');
+</script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-176442345-4"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-176442345-4');
+</script>
+
 
 </html>
